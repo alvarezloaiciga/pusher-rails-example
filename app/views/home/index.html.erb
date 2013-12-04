@@ -1,0 +1,46 @@
+ <div id="chat_widget_container">
+    <div id="chat_widget_main_container">
+       <div id="chat_widget_messages_container">
+          <div id="chat_widget_messages">
+             chat messages go here
+          </div>
+       </div>
+       <div id="chat_widget_online">
+          <p>Who's Online (<span id="chat_widget_counter">0</span>)</p>
+          <ul id="chat_widget_online_list">
+             <li>online users go here</li>
+          </ul>
+       </div>
+       <div class="clear"></div>
+       <div id="chat_widget_input_container">
+          <form method="post" id="chat_widget_form">
+             <input type="text" id="chat_widget_input" />
+             <input type="submit" value="Chat" id="chat_widget_button" />
+          </form>
+       </div>
+    </div>
+ </div>
+<%= javascript_tag do %>
+  console.log("hey mae");
+  pusher = new Pusher('f56593b7930f439b27e6');
+  nettuts_channel = pusher.subscribe('presence-nettuts'); //join the presence-nettuts channel
+
+  nettuts_channel.bind('pusher:subscription_succeeded', function(members) {
+    var whosonline_html = '';
+    members.each(function(member) {
+      whosonline_html += '<li class="chat_widget_member" id="chat_widget_member_' + 
+      member.id + '">' + member.info.name + '</li>';
+    });
+    $('#chat_widget_online_list').html(whosonline_html);
+  });
+
+  nettuts_channel.bind('pusher:member_added', function(member) {
+      $('#chat_widget_online_list').append('<li class="chat_widget_member" ' +
+      'id="chat_widget_member_' + member.id + '">' + member.info.name + '</li>');
+   });
+
+  nettuts_channel.bind('pusher:member_removed', function(member) {
+    console.log("here");
+     $('#chat_widget_member_' + member.id).remove();
+  });
+<% end %>
