@@ -3,6 +3,11 @@ pusher-rails-example
 
 Rails 4 chat example using pusher presence channels
 
+This is the Rails version example for:
+
+
+http://net.tutsplus.com/tutorials/javascript-ajax/getting-real-time-with-pusher/
+
 ### Running the app
 
 1. [Create a pusher account](http://pusher.com/pricing)
